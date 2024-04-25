@@ -1,6 +1,6 @@
 {
     "jianshu":{
-        "domain":"https://www.jianshu.com/",
+        "url":"https://www.jianshu.com/",
         "login_element": "//a[text()='登录']",
         "weixin_element":"//a[@id='weixin']",
         "wright_paper_element":"//a[@class='btn write-btn']",
@@ -8,5 +8,19 @@
         "title_element":"//a[text()='发布文章']/../../../input",
         "content_element":"//div[@class='kalamu-area']",
         "publish_element":"//a[text()='发布文章']"
-    }
+    },
+    "zhihu":{
+        "url":"https://www.zhihu.com/",
+        "weixin_element":"//span[@class='Login-socialButtonGroup']/button[1]",
+        "write_paper_element":"//button[@title='写文章']",
+        "doc_element":"//button[@aria-label='文档']",
+        "doc_element2":"//div[@class='Menu']/button[@aria-label='文档']",
+        "upload_doc_element":"//div[@class='Editable-docModal-uploader']/../../input",
+        "title_element":"//textarea",
+        "publish_setting_element":"//button/div[text()='发布设置']",
+        "add_topic_element":"//button[text()='添加话题']",
+        "search_topic_element":"//input[@aria-label='搜索话题']",
+        "publish_element":"//button[text()='发布']"
+
+}   
 }

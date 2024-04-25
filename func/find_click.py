@@ -35,7 +35,22 @@ def wait_login_success(driver,xpath):
     except Exception as e:
         print(f"登录超时: {e}")
         
-        
+def find_upload(driver, xpath, filepath):
+    try:
+        for i in range(3):
+            actions = ActionChains(driver)
+            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            driver.find_element(By.XPATH, xpath).send_keys(filepath)
+            print(f"成功找到元素:{xpath}并点击")
+            break
+
+    except NoSuchElementException:
+        print(f"未找到路径为{xpath}的元素")
+    except ElementNotInteractableException:
+        print(f"路径为{xpath}的元素不可交互")
+    except Exception as e:
+        print(f"试图点击元素 {xpath} 发生错误: {e}")
+    sleep(1)       
 def find_input(driver, xpath, text):
     try:
         for i in range(3):
