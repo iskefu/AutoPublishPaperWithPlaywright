@@ -1,0 +1,12 @@
+{
+    "jianshu":{
+        "domain":"https://www.jianshu.com/",
+        "login_element": "//a[text()='登录']",
+        "weixin_element":"//a[@id='weixin']",
+        "wright_paper_element":"//a[@class='btn write-btn']",
+        "new_paper_element":"//span[text()='新建文章']/..",
+        "title_element":"//a[text()='发布文章']/../../../input",
+        "content_element":"//div[@class='kalamu-area']",
+        "publish_element":"//a[text()='发布文章']"
+    }
+}
