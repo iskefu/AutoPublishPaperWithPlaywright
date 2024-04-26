@@ -23,7 +23,7 @@
         "publish":"//button[text()='发布']"
    
     },
-    "bilibili":{
+    "blbl":{
         "url":"https://member.bilibili.com/platform/upload/text/edit",
         "title":"//textarea",
         "content":"//div[@data-placeholder='请输入正文']",
@@ -65,7 +65,7 @@
         "declare_original":"//span[contains(text(),'声明原创')]/../..",
         "preview_publish":"//span[contains(text(),'预览并发布')]/..",
         "confirm_publish":"//span[contains(text(),'确认发布')]/..",
-        "phone_captha":"//span[contains(text(),'手机验证码')]/..",
+        "phone_code":"//span[contains(text(),'手机验证码')]/.."
         
     }
 
