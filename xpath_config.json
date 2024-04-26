@@ -1,6 +1,6 @@
 {
     "jianshu":{
-        "url":"https://www.jianshu.com/",
+        "url":"https://www.jianshu.com/writer#",
         "login": "//a[text()='登录']",
         "weixin":"//a[@id='weixin']",
         "wright_paper":"//a[@class='btn write-btn']",
@@ -10,7 +10,7 @@
         "publish":"//a[text()='发布文章']"
     },
     "zhihu":{
-        "url":"https://www.zhihu.com/",
+        "url":"https://zhuanlan.zhihu.com/write",
         "weixin":"//span[@class='Login-socialButtonGroup']/button[1]",
         "write_paper":"//button[@title='写文章']",
         "doc":"//button[@aria-label='文档']",
@@ -24,12 +24,7 @@
    
     },
     "bilibili":{
-        "url":"https://www.bilibili.com/",
-        "login":"//span[contains(text(),'登录')]",
-        "weixin":"//span[contains(text(),'微信登录')]/..",
-        "upload_entry":"//span[text()='投稿']/..",
-        "zhuanlan":"//p[contains(text(),'专栏投稿')]/..",
-        "zhuanlan_url":"https://member.bilibili.com/platform/upload/text/edit",
+        "url":"https://member.bilibili.com/platform/upload/text/edit",
         "title":"//textarea",
         "content":"//div[@data-placeholder='请输入正文']",
         "publish":"//button[text()='提交文章']"
@@ -49,6 +44,29 @@
         "add_tag1":"//div[@class='addTagTitle']/..//span[1]",
         "close":"//div[text()='标签']/..//button",
         "publish2":"//div[@class='modal__button-bar']/button[contains(text(),'发布文章')]"
+    },
+
+    "wxgzh":{
+        "url":"https://mp.weixin.qq.com/",
+        "pic_paper_news":"//div[contains(text(),'图文消息')]/../..",
+        "upload_doc":"//li[@id='js_import_file']",
+        "input_file":"//div[@class='weui-desktop-upload']//input[@type='file']",
+        "title":"//textarea[@id='title']",
+        "autor":"//input[@id='author']",
+        "iframe":"//iframe[@id='ueditor_0']",
+        "content":"//body"
+    },
+    "toutiao":{
+        "url":"https://mp.toutiao.com/profile_v4/graphic/publish",
+        "title":"//textarea",
+        "content":"//div[@contenteditable='true']",
+        "single_title":"//span[contains(text(),'单标题')]/../../input",
+        "no_cover":"//span[contains(text(),'无封面')]/../..",
+        "declare_original":"//span[contains(text(),'声明原创')]/../..",
+        "preview_publish":"//span[contains(text(),'预览并发布')]/..",
+        "confirm_publish":"//span[contains(text(),'确认发布')]/..",
+        "phone_captha":"//span[contains(text(),'手机验证码')]/..",
+        
     }
 
 }

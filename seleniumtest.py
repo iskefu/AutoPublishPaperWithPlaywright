@@ -1,44 +1,27 @@
 import json
 import os
-from time import sleep
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
 import subprocess
-from func.check_port import check_port
+from time import sleep
+from selenium.webdriver.common.by import By
 from func.find_click import find_and_click, find_input, find_upload, get_herf, markdownhere, wait_login_success
+from func.md_to_doc import md_to_docx
 from func.title_content import title, content
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def swich_new_window(driver):
     handles = driver.window_handles
     driver.switch_to.window(handles[-1])
 
 def JIANSHU(platform="jianshu"):
+    # 登录后 跳转到发布页
     driver.get(config[platform]["url"])
-    sleep(1)
-    swich_new_window(driver)
-    def login(driver):
-        find_and_click(driver, config[platform]["login"])
-        
-        find_and_click(driver, config[platform]["weixin"])
-        swich_new_window(driver)
-        
-        
-        wait_login_success(driver, config[platform]["wright_paper"])
-        
-    login=driver.find_elements(By.XPATH,config[platform]["login"])
-    if login:       
-        login(driver)
 
-    find_and_click(driver,config[platform]["wright_paper"])
     swich_new_window(driver)
-    
-    
     find_and_click(driver,config[platform]["new_paper"])
-    
-    # driver.get('https://www.jianshu.com/writer#/notebooks/54772126/notes/119657316')
-    # sleep(2)
-    
+
     find_input(driver,config[platform]["title"],title)
     find_input(driver,config[platform]["content"],content)
     
@@ -56,13 +39,7 @@ def JIANSHU(platform="jianshu"):
     driver.quit()
 
 def ZHIHU(platform="zhihu"):
-    driver.get(config[platform]["url"])
-    swich_new_window(driver)
-    islogin=driver.find_elements(By.XPATH,config[platform]["write_paper"])
-    if not islogin:
-        find_and_click(driver,config[platform]["weixin"])
-        wait_login_success(driver,config[platform]["write_paper"])
-    find_and_click(driver,config[platform]["write_paper"])
+    driver.get(config[platform]["url"]) 
     swich_new_window(driver)
     find_and_click(driver,config[platform]["doc"])
     find_and_click(driver,config[platform]["doc2"])
@@ -79,21 +56,9 @@ def ZHIHU(platform="zhihu"):
         print("发布成功")    
     
 def BLBL(platform="bilibili"):
-    # driver.get(config[platform]["url"])
-    # swich_new_window(driver)
-    # login=driver.find_elements(By.XPATH,config[platform]["login"])
-    # if login:
-    #     find_and_click(driver,config[platform]["login"])
-    #     find_and_click(driver,config[platform]["weixin"])
-    #     wait_login_success(driver,config[platform]["upload_entry"])
-    # find_and_click(driver,config[platform]["upload_entry"])
-    # driver.get(config[platform]["url"]+get_herf(driver,config[platform]["zhuanlan"]))
-    # find_and_click(driver,config[platform]["zhuanlan"])
-    
-    
-    driver.get(config[platform]["zhuanlan_url"])
+    driver.get(config[platform]["url"])
     swich_new_window(driver)
-    sleep(5)
+    sleep(2)
     el=driver.find_element(By.XPATH,config[platform]["title"])
     print(el)
     find_input(driver,config[platform]["title"],title)
@@ -118,19 +83,87 @@ def CSDN(platform="csdn"):
     else:
         print("发布成功")
         
-        
+# def BAIJIAHAO(platform="baijiahao"):
+def WXGZH(platform="wxgzh"):
+    
+    driver.get(config[platform]["url"])
+    
+    swich_new_window(driver)
+    
+    wait_login_success(driver,config[platform]["pic_paper_news"])
+    
+    find_and_click(driver,config[platform]["pic_paper_news"])
+    
+    swich_new_window(driver)
+    
+    find_input(driver,config[platform]["title"],config[platform]["title"])
+    find_input(driver,config[platform]["author"],config[platform]["author"])
+    
+    driver.switch_to.frame(config[platform]["iframe"])
+    find_input(driver,config[platform]["content"],content)
+    markdownhere(driver,config[platform]["content"])
+    driver.switch_to.default_content()
+    
+def TOUTIAO(platform='toutiao'):
+    
+    driver.get(config[platform]["url"])
+    swich_new_window(driver)
+    sleep(1)
+    
+    driver.find_elements(By.XPATH,"//div[@class='syl-toolbar']//button")[-1].click()
+    print('文档导入')
+    sleep(1)
+    
+    doc_filepath = md_to_docx(filepath)
+    driver.find_element(By.XPATH,"//input[@type='file']").send_keys(doc_filepath)
+    os.remove(doc_filepath)
+    sleep(1)
+    print('上传文件')
+    
+    driver.find_element(By.XPATH,config[platform]["title"]).clear()
+    driver.find_element(By.XPATH,config[platform]["title"]).send_keys(title)
+    sleep(1)
+    print('标题')
+    def js_click(driver,xpath):
+        e=driver.find_element(By.XPATH,xpath)
+        driver.execute_script('arguments[0].scrollIntoView({block: "center"});',e)
+        driver.execute_script("arguments[0].click();", e)
+    
+    js_click(driver,"//span[contains(text(),'单标题')]/..")
+    sleep(1)
+    print('单标题')
+    
+    js_click(driver,"//span[contains(text(),'无封面')]/..")
+    sleep(1)
+    print('无封面')
+    
+    driver.execute_script('arguments[0].scrollIntoView();',driver.find_element(By.XPATH,config[platform]["declare_original"]))
+    driver.find_element(By.XPATH,config[platform]["declare_original"]).click()
+    sleep(1)
+    print('声明原创')
+    
+    driver.find_element(By.XPATH,config[platform]["preview_publish"]).click()    
+    sleep(1)
+    print('预览发布')
+    
+    # 确认发布
+    driver.find_element(By.XPATH,config[platform]["confirm_publish"]).click()
+    
+
 if __name__ ==  '__main__':
-    if not check_port(9222):
-        subprocess.Popen(["/usr/bin/google-chrome-stable" ,"--remote-debugging-port=9222"])
-        sleep(3)
+    port=9222
+    # 打开浏览器
+    # subprocess.Popen(["/usr/bin/google-chrome-stable" ,f"--remote-debugging-port={port}"])
 
     options = Options()
-    options.add_argument("--disable-gpu")
-    options.debugger_address="127.0.0.1:9222"
+    # options.add_argument("--disable-gpu")
+    # options.add_argument("--headless")
+    options.debugger_address=f"127.0.0.1:{port}"
     driver = webdriver.Chrome(options = options)
+    # driver=webdriver.Chrome()
     # driver.maximize_window()
-    driver.implicitly_wait(10) # seconds
-    
+    driver.implicitly_wait(10) # secondst)
+
     filepath = '/run/media/kf/data/obsidian/Capture/ollma3部署记录.md'
     title = title(filepath)
     content = content(filepath)
@@ -141,4 +174,7 @@ if __name__ ==  '__main__':
     # JIANSHU(platform="jianshu")
     # ZHIHU(platform="zhihu")
     # BLBL(platform="bilibili")
-    CSDN(platform="csdn")
+    # CSDN(platform="csdn")
+    # WXGZH(platform="wxgzh")
+    TOUTIAO(platform="toutiao")
+    

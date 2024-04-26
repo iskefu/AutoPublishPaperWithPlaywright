@@ -17,13 +17,13 @@ def get_herf(driver, xpath):
 def find_and_click(driver, xpath):
 
         try:
-            for i in range(3):
-                actions = ActionChains(driver)
-                WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
-                actions.move_to_element(driver.find_element(By.XPATH,xpath)).perform()
-                driver.find_element(By.XPATH, xpath).click()
-                print(f"成功找到元素:{xpath}并点击")
-                break
+
+            actions = ActionChains(driver)
+            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+            actions.move_to_element(driver.find_element(By.XPATH,xpath)).perform()
+            driver.find_element(By.XPATH, xpath).click()
+            print(f"成功找到元素:{xpath}并点击")
+
 
         except NoSuchElementException:
             print(f"未找到路径为{xpath}的元素")
@@ -44,12 +44,10 @@ def wait_login_success(driver,xpath):
         
 def find_upload(driver, xpath, filepath):
     try:
-        for i in range(3):
-            actions = ActionChains(driver)
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
-            driver.find_element(By.XPATH, xpath).send_keys(filepath)
-            print(f"成功找到元素:{xpath}并点击")
-            break
+
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+        driver.find_element(By.XPATH, xpath).send_keys(filepath)
+        print(f"成功找到元素:{xpath}并点击")
 
     except NoSuchElementException:
         print(f"未找到路径为{xpath}的元素")
@@ -60,16 +58,11 @@ def find_upload(driver, xpath, filepath):
     sleep(1)       
 def find_input(driver, xpath, text):
     try:
-        for i in range(3):
-            actions = ActionChains(driver)
-            WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
-            actions.move_to_element(driver.find_element(By.XPATH,xpath)).perform()
-            driver.find_element(By.XPATH, xpath).click()
-            driver.find_element(By.XPATH, xpath).clear()
-            driver.find_element(By.XPATH, xpath).send_keys(text)
-            print(f"成功找到元素:{xpath}并点击")
-            break
-
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+        driver.find_element(By.XPATH, xpath).clear()
+        driver.find_element(By.XPATH, xpath).send_keys(text)
+        print(f"成功找到元素:{xpath}并点击")
+        
     except NoSuchElementException:
         print(f"未找到路径为{xpath}的元素")
     except ElementNotInteractableException:
