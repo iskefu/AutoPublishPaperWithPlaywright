@@ -124,6 +124,43 @@ def js_click(driver,xpath):
     driver.execute_script('arguments[0].scrollIntoView({block: "center"});',e)
     driver.execute_script("arguments[0].click();", e)
 
+def JUEJIN(platform='juejin'):
+    driver.get('https://juejin.cn/editor/drafts/new?v=2')
+    swich_new_window(driver)
+    sleep(2)
+    
+    driver.find_element(By.XPATH,"//div[@class='bytemd-toolbar-right']/div[@bytemd-tippy-path='6']").click()
+    print("文档上传")
+    sleep(1)
+    
+    driver.find_element(By.XPATH,"//div[@class='upload-area']/input").send_keys(filepath)
+    print("上传md file")
+    sleep(1)
+    
+    driver.find_element(By.XPATH,"//header/input").send_keys(title)
+    print("标题")
+    sleep(1)
+    
+    driver.find_element(By.XPATH,"//button[contains(text(),'发布')][@class='xitu-btn']").click()
+    print("发布")
+    sleep(1)
+    
+    driver.find_element(By.XPATH,"//div[contains(text(),'人工智能')]").click()
+    print("人工智能")
+    sleep(1)
+    
+    driver.find_element(By.XPATH,"//div[contains(text(),'请搜索添加标签')]/../input").send_keys('GitHub')
+    print("GitHub")
+    sleep(1)
+    
+    ee=driver.find_element(By.XPATH,"//button[contains(text(),'确定并发布')]")
+    driver.execute_script("arguments[0].scrollIntoView({ block: 'center' });", ee)
+    print("确定并发布")
+    sleep(1)
+    
+
+    
+
 def TOUTIAO(platform='toutiao'):
     
     driver.get(config[platform]["url"])
@@ -196,8 +233,8 @@ if __name__ ==  '__main__':
     
     # JIANSHU(platform="jianshu")
     # ZHIHU(platform="zhihu")
-    BLBL(platform="blbl")
+    # BLBL(platform="bibi")
     # CSDN(platform="csdn")
     # WXGZH(platform="wxgzh")
     # TOUTIAO(platform="toutiao")
-    
+    JUEJIN(platform="juejin")
