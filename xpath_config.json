@@ -1,26 +1,54 @@
 {
     "jianshu":{
         "url":"https://www.jianshu.com/",
-        "login_element": "//a[text()='登录']",
-        "weixin_element":"//a[@id='weixin']",
-        "wright_paper_element":"//a[@class='btn write-btn']",
-        "new_paper_element":"//span[text()='新建文章']/..",
-        "title_element":"//a[text()='发布文章']/../../../input",
-        "content_element":"//div[@class='kalamu-area']",
-        "publish_element":"//a[text()='发布文章']"
+        "login": "//a[text()='登录']",
+        "weixin":"//a[@id='weixin']",
+        "wright_paper":"//a[@class='btn write-btn']",
+        "new_paper":"//span[text()='新建文章']/..",
+        "title":"//a[text()='发布文章']/../../../input",
+        "content":"//div[@class='kalamu-area']",
+        "publish":"//a[text()='发布文章']"
     },
     "zhihu":{
         "url":"https://www.zhihu.com/",
-        "weixin_element":"//span[@class='Login-socialButtonGroup']/button[1]",
-        "write_paper_element":"//button[@title='写文章']",
-        "doc_element":"//button[@aria-label='文档']",
-        "doc_element2":"//div[@class='Menu']/button[@aria-label='文档']",
-        "upload_doc_element":"//div[@class='Editable-docModal-uploader']/../../input",
-        "title_element":"//textarea",
-        "publish_setting_element":"//button/div[text()='发布设置']",
-        "add_topic_element":"//button[text()='添加话题']",
-        "search_topic_element":"//input[@aria-label='搜索话题']",
-        "publish_element":"//button[text()='发布']"
+        "weixin":"//span[@class='Login-socialButtonGroup']/button[1]",
+        "write_paper":"//button[@title='写文章']",
+        "doc":"//button[@aria-label='文档']",
+        "doc2":"//div[@class='Menu']/button[@aria-label='文档']",
+        "upload_doc":"//div[@class='Editable-docModal-uploader']/../../input",
+        "title":"//textarea",
+        "publish_setting":"//button/div[text()='发布设置']",
+        "add_topic":"//button[text()='添加话题']",
+        "search_topic":"//input[@aria-label='搜索话题']",
+        "publish":"//button[text()='发布']"
+   
+    },
+    "bilibili":{
+        "url":"https://www.bilibili.com/",
+        "login":"//span[contains(text(),'登录')]",
+        "weixin":"//span[contains(text(),'微信登录')]/..",
+        "upload_entry":"//span[text()='投稿']/..",
+        "zhuanlan":"//p[contains(text(),'专栏投稿')]/..",
+        "zhuanlan_url":"https://member.bilibili.com/platform/upload/text/edit",
+        "title":"//textarea",
+        "content":"//div[@data-placeholder='请输入正文']",
+        "publish":"//button[text()='提交文章']"
 
-}   
+    },
+    "baijiahao":{
+        "url":"https://baijiahao.baidu.com/builder/rc/edit?type=news"
+        
+    }   ,
+    "csdn":{
+        "url":"https://blog.csdn.net/",
+        "write_paper":"//a[text()='发布']",
+        "MD_editor":"//span[contains(text(),'MD 编辑器')]",
+        "upload_doc":"//input[@id='import-markdown-file-input']",
+        "publish":"//button[contains(text(),'发布文章')]",
+        "add_tag":"//button[contains(text(),'添加文章标签')]",
+        "add_tag1":"//div[@class='addTagTitle']/..//span[1]",
+        "close":"//div[text()='标签']/..//button",
+        "publish2":"//div[@class='modal__button-bar']/button[contains(text(),'发布文章')]"
+    }
+
 }

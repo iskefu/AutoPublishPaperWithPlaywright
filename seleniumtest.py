@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import subprocess
 from func.check_port import check_port
-from func.find_click import find_and_click, find_input, find_upload, markdownhere, wait_login_success
+from func.find_click import find_and_click, find_input, find_upload, get_herf, markdownhere, wait_login_success
 from func.title_content import title, content
 
 def swich_new_window(driver):
@@ -18,39 +18,39 @@ def JIANSHU(platform="jianshu"):
     sleep(1)
     swich_new_window(driver)
     def login(driver):
-        find_and_click(driver, config[platform]["login_element"])
+        find_and_click(driver, config[platform]["login"])
         
-        find_and_click(driver, config[platform]["weixin_element"])
+        find_and_click(driver, config[platform]["weixin"])
         swich_new_window(driver)
         
         
-        wait_login_success(driver, config[platform]["wright_paper_element"])
+        wait_login_success(driver, config[platform]["wright_paper"])
         
-    login_element=driver.find_elements(By.XPATH,config[platform]["login_element"])
-    if login_element:       
+    login=driver.find_elements(By.XPATH,config[platform]["login"])
+    if login:       
         login(driver)
 
-    find_and_click(driver,config[platform]["wright_paper_element"])
+    find_and_click(driver,config[platform]["wright_paper"])
     swich_new_window(driver)
     
     
-    find_and_click(driver,config[platform]["new_paper_element"])
+    find_and_click(driver,config[platform]["new_paper"])
     
     # driver.get('https://www.jianshu.com/writer#/notebooks/54772126/notes/119657316')
     # sleep(2)
     
-    find_input(driver,config[platform]["title_element"],title)
-    find_input(driver,config[platform]["content_element"],content)
+    find_input(driver,config[platform]["title"],title)
+    find_input(driver,config[platform]["content"],content)
     
-    markdownhere(driver,config[platform]["content_element"])
+    markdownhere(driver,config[platform]["content"])
     
     sleep(2)
     
-    find_and_click(driver,config[platform]["publish_element"])
+    find_and_click(driver,config[platform]["publish"])
     sleep(2)
     
-    if driver.find_elements(By.XPATH,config[platform]["publish_element"]):
-        find_and_click(driver,config[platform]["publish_element"])
+    if driver.find_elements(By.XPATH,config[platform]["publish"]):
+        find_and_click(driver,config[platform]["publish"])
     else:
         print("发布成功")
     driver.quit()
@@ -58,26 +58,67 @@ def JIANSHU(platform="jianshu"):
 def ZHIHU(platform="zhihu"):
     driver.get(config[platform]["url"])
     swich_new_window(driver)
-    islogin=driver.find_elements(By.XPATH,config[platform]["write_paper_element"])
+    islogin=driver.find_elements(By.XPATH,config[platform]["write_paper"])
     if not islogin:
-        find_and_click(driver,config[platform]["weixin_element"])
-        wait_login_success(driver,config[platform]["write_paper_element"])
-    find_and_click(driver,config[platform]["write_paper_element"])
+        find_and_click(driver,config[platform]["weixin"])
+        wait_login_success(driver,config[platform]["write_paper"])
+    find_and_click(driver,config[platform]["write_paper"])
     swich_new_window(driver)
-    find_and_click(driver,config[platform]["doc_element"])
-    find_and_click(driver,config[platform]["doc_element2"])
-    find_upload(driver,config[platform]["upload_doc_element"],filepath)
-    find_input(driver,config[platform]["title_element"],title)
-    find_and_click(driver,config[platform]["publish_setting_element"])
-    find_and_click(driver,config[platform]["add_topic_element"])
-    find_input(driver,config[platform]["search_topic_element"],title)
-    find_and_click(driver,config[platform]["publish_element"])
+    find_and_click(driver,config[platform]["doc"])
+    find_and_click(driver,config[platform]["doc2"])
+    find_upload(driver,config[platform]["upload_doc"],filepath)
+    find_input(driver,config[platform]["title"],title)
+    find_and_click(driver,config[platform]["publish_setting"])
+    find_and_click(driver,config[platform]["add_topic"])
+    find_input(driver,config[platform]["search_topic"],title)
+    find_and_click(driver,config[platform]["publish"])
     
-    if driver.find_elements(By.XPATH,config[platform]["publish_element"]):
-        find_and_click(driver,config[platform]["publish_element"])
+    if driver.find_elements(By.XPATH,config[platform]["publish"]):
+        find_and_click(driver,config[platform]["publish"])
     else:
         print("发布成功")    
     
+def BLBL(platform="bilibili"):
+    # driver.get(config[platform]["url"])
+    # swich_new_window(driver)
+    # login=driver.find_elements(By.XPATH,config[platform]["login"])
+    # if login:
+    #     find_and_click(driver,config[platform]["login"])
+    #     find_and_click(driver,config[platform]["weixin"])
+    #     wait_login_success(driver,config[platform]["upload_entry"])
+    # find_and_click(driver,config[platform]["upload_entry"])
+    # driver.get(config[platform]["url"]+get_herf(driver,config[platform]["zhuanlan"]))
+    # find_and_click(driver,config[platform]["zhuanlan"])
+    
+    
+    driver.get(config[platform]["zhuanlan_url"])
+    swich_new_window(driver)
+    sleep(5)
+    el=driver.find_element(By.XPATH,config[platform]["title"])
+    print(el)
+    find_input(driver,config[platform]["title"],title)
+    find_input(driver,config[platform]["content"],content)
+    find_and_click(driver,config[platform]["publish"])
+    
+def CSDN(platform="csdn"):
+    driver.get(config[platform]["url"])
+    swich_new_window(driver)
+    find_and_click(driver,config[platform]["write_paper"])
+    find_and_click(driver,config[platform]["MD_editor"])
+    swich_new_window(driver)
+    # find_upload(driver,config[platform]["upload_doc"],filepath)
+    driver.find_element(By.XPATH,config[platform]["upload_doc"]).send_keys(filepath)
+    driver.find_element(By.XPATH,config[platform]["publish"]).click()
+    driver.find_element(By.XPATH,config[platform]["add_tag"]).click()
+    driver.find_element(By.XPATH,config[platform]["add_tag1"]).click()
+    driver.find_element(By.XPATH,config[platform]["close"]).click()
+    driver.find_element(By.XPATH,config[platform]["publish2"]).click()
+    if driver.find_elements(By.XPATH,config[platform]["publish2"]):
+        find_and_click(driver,config[platform]["publish"])
+    else:
+        print("发布成功")
+        
+        
 if __name__ ==  '__main__':
     if not check_port(9222):
         subprocess.Popen(["/usr/bin/google-chrome-stable" ,"--remote-debugging-port=9222"])
@@ -98,5 +139,6 @@ if __name__ ==  '__main__':
         config = json.load(f)
     
     # JIANSHU(platform="jianshu")
-    ZHIHU(platform="zhihu")
-    
+    # ZHIHU(platform="zhihu")
+    # BLBL(platform="bilibili")
+    CSDN(platform="csdn")
