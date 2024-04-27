@@ -214,7 +214,7 @@ if __name__ ==  '__main__':
     
     port=9222
     
-    # 打开浏览器
+    # 打开浏览器 只用打开一次
     # subprocess.Popen(["/usr/bin/google-chrome-stable" ,f"--remote-debugging-port={port}"])
     # sleep(3)
     
@@ -237,4 +237,4 @@ if __name__ ==  '__main__':
     # CSDN(platform="csdn")
     # WXGZH(platform="wxgzh")
     # TOUTIAO(platform="toutiao")
-    JUEJIN(platform="juejin")
+    # JUEJIN(platform="juejin")
