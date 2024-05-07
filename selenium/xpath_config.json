@@ -1,0 +1,72 @@
+{
+    "jianshu":{
+        "url":"https://www.jianshu.com/writer#",
+        "login": "//a[text()='登录']",
+        "weixin":"//a[@id='weixin']",
+        "wright_paper":"//a[@class='btn write-btn']",
+        "new_paper":"//span[text()='新建文章']/..",
+        "title":"//a[text()='发布文章']/../../../input",
+        "content":"//div[@class='kalamu-area']",
+        "publish":"//a[text()='发布文章']"
+    },
+    "zhihu":{
+        "url":"https://zhuanlan.zhihu.com/write",
+        "weixin":"//span[@class='Login-socialButtonGroup']/button[1]",
+        "write_paper":"//button[@title='写文章']",
+        "doc":"//button[@aria-label='文档']",
+        "doc2":"//div[@class='Menu']/button[@aria-label='文档']",
+        "upload_doc":"//div[@class='Editable-docModal-uploader']/../../input",
+        "title":"//textarea",
+        "publish_setting":"//button/div[text()='发布设置']",
+        "add_topic":"//button[text()='添加话题']",
+        "search_topic":"//input[@aria-label='搜索话题']",
+        "publish":"//button[text()='发布']"
+   
+    },
+    "blbl":{
+        "url":"https://member.bilibili.com/platform/upload/text/edit",
+        "title":"//textarea",
+        "content":"//div[@data-placeholder='请输入正文']",
+        "publish":"//button[text()='提交文章']"
+
+    },
+    "baijiahao":{
+        "url":"https://baijiahao.baidu.com/builder/rc/edit?type=news"
+        
+    }   ,
+    "csdn":{
+        "url":"https://blog.csdn.net/",
+        "write_paper":"//a[text()='发布']",
+        "MD_editor":"//span[contains(text(),'MD 编辑器')]",
+        "upload_doc":"//input[@id='import-markdown-file-input']",
+        "publish":"//button[contains(text(),'发布文章')]",
+        "add_tag":"//button[contains(text(),'添加文章标签')]",
+        "add_tag1":"//div[@class='addTagTitle']/..//span[1]",
+        "close":"//div[text()='标签']/..//button",
+        "publish2":"//div[@class='modal__button-bar']/button[contains(text(),'发布文章')]"
+    },
+
+    "wxgzh":{
+        "url":"https://mp.weixin.qq.com/",
+        "pic_paper_news":"//div[contains(text(),'图文消息')]/../..",
+        "upload_doc":"//li[@id='js_import_file']",
+        "input_file":"//div[@class='weui-desktop-upload']//input[@type='file']",
+        "title":"//textarea[@id='title']",
+        "autor":"//input[@id='author']",
+        "iframe":"//iframe[@id='ueditor_0']",
+        "content":"//body"
+    },
+    "toutiao":{
+        "url":"https://mp.toutiao.com/profile_v4/graphic/publish",
+        "title":"//textarea",
+        "content":"//div[@contenteditable='true']",
+        "single_title":"//span[contains(text(),'单标题')]/../../input",
+        "no_cover":"//span[contains(text(),'无封面')]/../..",
+        "declare_original":"//span[contains(text(),'声明原创')]/../..",
+        "preview_publish":"//span[contains(text(),'预览并发布')]/..",
+        "confirm_publish":"//span[contains(text(),'确认发布')]/..",
+        "phone_code":"//span[contains(text(),'手机验证码')]/.."
+        
+    }
+
+}
