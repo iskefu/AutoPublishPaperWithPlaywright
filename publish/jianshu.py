@@ -1,12 +1,10 @@
 import asyncio
 import os
+import re
 from playwright.async_api import Playwright, async_playwright, expect
-import pyperclip
-from func.get_cover import get_random_image
-from func.md_to_doc import md_to_doc
-from func.md_to_html import md_to_html
+import frontmatter
 from func.title_content import content, title
-
+from func.get_cover import get_random_image
 async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
     # launch browser
     browser = await playwright.chromium.launch(headless=False)
@@ -61,19 +59,28 @@ async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
     await page2.locator("div._1GsW5").click()
     await page2.wait_for_timeout(1000)
 
+    await page2.locator('div._3br9T li > div').click()
+    await page2.locator("li").filter(has_text=re.compile(r"^设置发布样式$")).click()
+    cover = get_random_image(cover_path)
+    await page2.locator("input[type=\"file\"]").set_input_files(cover)
+    await page2.wait_for_timeout(1000)
+    await page2.get_by_role("button", name="保存").click()
+    
     name= title(file_path)
     await page2.wait_for_selector('div > input[type="text"]')
     await page2.locator('div > input[type="text"]').clear()
     await page2.locator('div > input[type="text"]').fill(name)
     await page2.wait_for_timeout(1000)
 
-    md_content = content(file_path)
-    pyperclip.copy(md_content)
-    await page2.locator("div.kalamu-area").click()
-    await page2.locator("div.kalamu-area").press('Control+v')
+    with open(file_path, 'r', encoding='utf-8') as f:
+        md_content= frontmatter.load(f)
+    md_content = md_content.content
+    await page2.locator("div.kalamu-area").fill(md_content)
     await page2.wait_for_timeout(1000)
-    await page2.locator('a[data-action="publicize"]').click()
-    await page2.wait_for_selectorr('a:has-text("发布成功")')
+
+    await page2.get_by_text("发布文章").click()
+    # await page2.locator('a[data-action="publicize"]').click()
+    await page2.wait_for_selector('a:has-text("发布成功")')
     print('publish success')
     await browser.close()
 
@@ -82,7 +89,7 @@ async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
 
     # await browser.close()
 
-async def wxgzh(file_path,cover_path) -> None:
+async def jianshu(file_path,cover_path) -> None:
     
     async with async_playwright() as playwright:
         await run(playwright, file_path, cover_path)
@@ -91,4 +98,4 @@ if __name__ == '__main__':
     file_path = 'Dataview JavaScript速查表.md'
     cover_path="/run/media/kf/data/cover"
 
-    asyncio.run(wxgzh(file_path,cover_path))
+    asyncio.run(jianshu(file_path,cover_path))

@@ -1,6 +1,4 @@
 import os
-import re
-
 import mistune
 def title(filepath):
     filename = os.path.splitext(os.path.basename(filepath))[0]
@@ -9,7 +7,7 @@ def content(filepath):
    
     with open(filepath, 'r',encoding='utf-8') as f:
         content = f.read()
-    content=re.sub(r'---(.|\s)*?---', '', content)
+    print(content)
     return content
 
 def md_content(filepath):
@@ -18,8 +16,8 @@ def md_content(filepath):
         content = f.read()
     html = markdown(content) 
     print(html)
-
     return content
+# 读取docx
 
 
 
@@ -29,5 +27,6 @@ if __name__ == '__main__':
     
     filepath = '/run/media/kf/data/obsidian/Capture/ollma3部署记录.md'
 
-    # content(filepath)
-    md_content(filepath)
+    content(filepath)
+    
+    # md_content(filepath)

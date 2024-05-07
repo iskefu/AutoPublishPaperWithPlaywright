@@ -2,10 +2,15 @@ import sys
 import asyncio
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, 
                              QFileDialog, QLineEdit, QHBoxLayout, QMessageBox)
-from PyQt5.QtCore import QSettings
-import qasync
-
-from wxgzh import wxgzh
+from publish.baijiahao import baijiahao
+from publish.blbl import bilibili
+from publish.csdn import csdn
+from publish.jianshu import jianshu
+from publish.juejin import juejin
+from publish.texcentcloud import tencentcloud
+from publish.toutiao import toutiao
+from publish.wxgzh import wxgzh
+from publish.zhihu import zhihu
 
 class PlatformSelectionWindow(QMainWindow):
     def __init__(self, cover_path, upload_path):
@@ -31,6 +36,22 @@ class PlatformSelectionWindow(QMainWindow):
             if platform == "微信公众号":
             # 传递封面路径和上传文件路径至函数
                 asyncio.run(wxgzh(self.upload_path, self.cover_path))
+            elif platform=="百家号":
+                asyncio.run(baijiahao(self.upload_path, self.cover_path))
+            elif platform== "哔哩哔哩":
+                asyncio.run(bilibili(self.upload_path, self.cover_path))
+            elif platform=="csdn":
+                asyncio.run(csdn(self.upload_path, self.cover_path))
+            elif platform=="简书":
+                asyncio.run(jianshu(self.upload_path, self.cover_path))
+            elif platform=="掘金":
+                asyncio.run(juejin(self.upload_path, self.cover_path))
+            elif platform=="腾讯云":
+                asyncio.run(tencentcloud(self.upload_path, self.cover_path))
+            elif platform=="头条":
+                asyncio.run(toutiao(self.upload_path, self.cover_path))
+            elif platform=="知乎":
+                asyncio.run(zhihu(self.upload_path, self.cover_path))
         except Exception as e:
             QMessageBox.warning(self, 'Warning', f'Failed to publish to {platform}. {e}')
 
