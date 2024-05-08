@@ -33,6 +33,7 @@ class PlatformSelectionWindow(QMainWindow):
 
     def publish(self, platform):
         try:
+            print(f"upload_path: {self.upload_path}, cover_path: {self.cover_path}")  # 添加打印语句
             if platform == "微信公众号":
             # 传递封面路径和上传文件路径至函数
                 asyncio.run(wxgzh(self.upload_path, self.cover_path))

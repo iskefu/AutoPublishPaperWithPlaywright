@@ -1,11 +1,11 @@
 import asyncio
 import os
 from playwright.async_api import Playwright, async_playwright, expect
-from func.get_cover import get_random_image
-from func.md_to_doc import md_to_doc
-from func.title_content import content
 
-async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
+from publish.func.get_cover import get_random_image
+from publish.func.md_to_doc import md_to_doc
+
+async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     # launch browser
     browser = await playwright.chromium.launch(headless=False)
     
@@ -61,7 +61,7 @@ async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
 
     # upload docx file
     await page1.get_by_role("listitem", name="文档导入").click()
-    docx_file = md_to_doc(filepath)
+    docx_file = md_to_doc(file_path)
     await page1.locator(".weui-desktop-upload input").set_input_files(docx_file)
     
     author="kefu1252"

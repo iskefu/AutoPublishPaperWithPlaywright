@@ -4,11 +4,8 @@ import re
 from playwright.async_api import Playwright, async_playwright, expect
 import pyautogui
 import pyperclip
-from func.get_cover import get_random_image
-from func.md_to_doc import md_to_doc
-from func.title_content import content, title
 
-async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
+async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     # launch browser
     browser = await playwright.chromium.launch(headless=False)
     

@@ -1,11 +1,11 @@
 import asyncio
 import os
 from playwright.async_api import Playwright, async_playwright, expect
-from func.get_cover import get_random_image
-from func.md_to_doc import md_to_doc
-from func.title_content import content, title
 
-async def run(playwright: Playwright, filepath: str, cover_path: str) -> None:
+from publish.func.get_cover import get_random_image
+from publish.func.md_to_doc import md_to_doc
+
+async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     # launch browser
     browser = await playwright.chromium.launch(headless=False)
     
@@ -80,5 +80,4 @@ async def baijiahao(file_path,cover_path) -> None:
 if __name__ == '__main__':
     file_path = 'Dataview JavaScript速查表.md'
     cover_path="/run/media/kf/data/cover"
-
     asyncio.run(baijiahao(file_path,cover_path))
