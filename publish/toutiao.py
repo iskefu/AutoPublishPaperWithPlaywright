@@ -3,6 +3,7 @@ import os
 from playwright.async_api import Playwright, async_playwright, expect
 
 from publish.func.get_cover import get_random_image
+from publish.func.md_to_doc import md_to_doc
 from publish.func.title_content import title
 
 async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
@@ -57,8 +58,9 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     await page2.wait_for_load_state('load')
     await (await page2.wait_for_selector("span.icon-wrap")).click()
 
+    doc = md_to_doc(file_path)
     await page2.locator('div.doc-import button').click()
-    await page2.locator(' div.upload-handler input').set_input_files(file_path)
+    await page2.locator(' div.upload-handler input').set_input_files(doc)
 
     await page2.wait_for_timeout(1000)
     name = title(file_path)
@@ -72,16 +74,27 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     cover =get_random_image(cover_path)
     await page2.locator('button input').set_input_files(cover)
     await page2.wait_for_timeout(1000)
+    await page2.locator('div.resource-select div').click()
     await page2.get_by_role("button", name="确定").click()
     
-    await page2.locator("label").filter(has_text="声明原创").locator("div").click()
+    await page2.locator("span").filter(has_text="声明原创").nth(1).click()
+    # await page2.locator("#originalBtn div").first.click()
     
     await page2.get_by_role("button", name="预览并发布").click()
-    await page2.wait_for_timeout(3000)
-    await page2.locator('div.publish-footer  button').last.click()
     
+    try:
+        await page2.locator("button").filter(has_text="仍要发布").wait_for()
+        await page2.locator("button").filter(has_text="仍要发布").click()
+    except:
+        pass
+
+    await page2.get_by_role("button", name="确认发布").wait_for()
+    await page2.get_by_role("button", name="确认发布").click()
+    await page2.locator("button").filter(has_text="获取验证码").wait_for()
     await page2.locator("button").filter(has_text="获取验证码").click()
     
+    await page2.pause()
+    os.remove(doc)
     
 async def toutiao(file_path,cover_path) -> None:
     

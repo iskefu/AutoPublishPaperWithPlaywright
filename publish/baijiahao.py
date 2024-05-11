@@ -20,7 +20,7 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
 
     # create new page
     page=await context.new_page()
-    # page.set_default_timeout(600*1000)
+    page.set_default_timeout(600*1000)
 
     # go to url
     url='https://baijiahao.baidu.com/'
@@ -41,36 +41,42 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
             await page.close()
             return
     
-    # 保存登陆状态
+    # save state
     await page.wait_for_load_state('load')
     await context.storage_state(path=ss_file)
     print('save state to', ss_file)
 
+    # go to publish page
     await page.locator("div.nav-switch-btn").first.click()
     await page.get_by_role("button",  name= "发布" ).hover()
     await page.locator("li.edit-news").click()
     await page.wait_for_load_state("load")
     
+    # upload file
     await page.locator("#edui43_body div").first.click()
     doc=md_to_doc(file_path)
     await page.locator("span input[type='file']").set_input_files(doc)
 
+    # upload cover
     cover=get_random_image(cover_path)
     await page.locator("#edui33_body div").first.click()
     await page.locator("span.uploader input").set_input_files(cover)
-    await page.wait_for_timeout(3 * 1000)
+    await page.wait_for_timeout(10 * 1000)
     await page.get_by_role("button",  name= "确 认" ).click()
 
+    # publish cover and setting
     await page.locator("div.edit-cover-container  input").last.click()
     await page.locator(".coverUploaderView > .container").first.click()
     await page.locator("div.cheetah-ui-pro-image-modal-choose-cover > div").click()
     await page.get_by_role("button",  name= "确 认" ).click()
+    
     await page.wait_for_timeout(5 * 1000)
-    await page.locator("div.setting-item input").first.click()
+    await page.locator("div.setting-item input").first.check()
     await page.wait_for_timeout(5 * 1000)
     await page.locator("div.op-btn-outter-content button").nth(1).click()
     await page.wait_for_selector('a.btn.write-another')
     await browser.close()
+    os.remove(doc)
 
 async def baijiahao(file_path,cover_path) -> None:
     

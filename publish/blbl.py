@@ -22,7 +22,7 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
 
     # create new page
     page=await context.new_page()
-    # page.set_default_timeout(600*1000)
+    page.set_default_timeout(600*1000)
 
     # go to url
     url='https://www.bilibili.com/'
@@ -50,15 +50,18 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     await context.storage_state(path=ss_file)
     print('save state to', ss_file)
     
+    # publish
     async with page.expect_popup() as p1_info:
         await page.get_by_role("link", name="投稿", exact=True).click()
     page1 = await p1_info.value
     await page1.wait_for_load_state('load')
     await page1.locator("#video-up-app").get_by_text("专栏投稿").click()
 
+    # title
     name = title(file_path)
     await page1.frame_locator("div.iframe-comp-container iframe").locator("textarea").fill(name)
     
+    # content
     cont = content(file_path)
     await page1.frame_locator("div.iframe-comp-container iframe").locator("div.ql-editor.ql-blank").fill(cont)
 

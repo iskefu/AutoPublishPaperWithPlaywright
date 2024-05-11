@@ -62,7 +62,7 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     cover = get_random_image(cover_path)
     await page2.locator("label input[type='file']").set_input_files(cover)
     
-    await page2.wait_for_timeout(10*1000)
+    await page2.wait_for_timeout(10000)
     await page2.get_by_role("button", name="发布").click()
     
     await page2.get_by_role("button", name="写文章").wait_for()

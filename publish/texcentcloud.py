@@ -2,6 +2,7 @@ import asyncio
 import os
 from playwright.async_api import Playwright, async_playwright, expect
 
+from publish.func.md_to_doc import md_to_doc
 from publish.func.title_content import title
 
 async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
@@ -52,13 +53,13 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     await page.get_by_text('发布').click()
     await page.get_by_role('link', name= '写文章' ).click()
     await page.wait_for_timeout(2000)
-    # await page.locator('div.col-editor-switch a').click()
+    
     name = title(file_path)
     await page.locator('div.article-title-wrap  textarea').fill(name)
 
-    await page.locator(".qa-r-editor-btn-wrap input[accept='.docx']").set_input_files(file_path)
+    doc= md_to_doc(file_path)
+    await page.locator('.qa-r-editor-btn.select-file input[accept=".docx"]').set_input_files(doc)
     
-
     await page.get_by_role('button', name= '发布' ).click()
     await page.get_by_label('原创').click()
     await page.locator('.com-2-tag-input').first.fill("github")
@@ -67,7 +68,8 @@ async def run(playwright: Playwright, file_path: str, cover_path: str) -> None:
     await page.get_by_role('button', name= '确认发布' ).click()
     await page.wait_for_selector('.col-editor-feedback-icon')
     await browser.close()
-    
+    os.remove(doc)
+    print('publish success')
 async def tencentcloud(file_path,cover_path) -> None:
     
     async with async_playwright() as playwright:
