@@ -2,7 +2,7 @@ import sys
 import asyncio
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, 
                              QFileDialog, QLineEdit, QHBoxLayout, QMessageBox)
-from publish.baijiahao import baijiahao
+from baijiahao import baijiahao
 from blbl import bilibili
 from publish.csdn import csdn
 from publish.jianshu import jianshu
