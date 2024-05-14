@@ -7,7 +7,6 @@ import frontmatter
 from playwright.async_api import Playwright, async_playwright, expect
 from dotenv import load_dotenv
 load_dotenv()
-from func.title_content import content, title
 
 async def init_browser(playwright):    
     
@@ -284,7 +283,7 @@ async def jianshu() -> None:
         await page2.wait_for_timeout(1000)
         await page2.get_by_role("button", name="保存").click()
         
-        name= title(file_path)
+        name= get_title(file_path)
         await page2.wait_for_selector('div > input[type="text"]')
         await page2.locator('div > input[type="text"]').clear()
         await page2.locator('div > input[type="text"]').fill(name)
@@ -337,7 +336,7 @@ async def juejin() -> None:
 
         await page1.locator('div.upload-area > input[type="file"]').set_input_files(file_path)
 
-        name = title(file_path)
+        name = get_title(file_path)
         await page1.locator("input.title-input").fill(name)
         await page1.get_by_role("button",  name= "发布" ).click()
         await page1.locator("div.item").nth(4).click()
@@ -383,7 +382,7 @@ async def tencentcloud() -> None:
         await page.get_by_role('link', name= '写文章' ).click()
         await page.wait_for_timeout(2000)
         
-        name = title(file_path)
+        name = get_title(file_path)
         await page.locator('div.article-title-wrap  textarea').fill(name)
 
         doc= md_to_doc(file_path)
@@ -443,7 +442,7 @@ async def toutiao() -> None:
         await page2.locator(' div.upload-handler input').set_input_files(doc)
 
         await page2.wait_for_timeout(1000)
-        name = title(file_path)
+        name = get_title(file_path)
         await page2.locator("div.editor-title textarea").fill(name)
         await page2.wait_for_timeout(1000)
         # if 
@@ -505,7 +504,7 @@ async def zhihu() -> None:
         page2 = await popup_info.value
         await page2.wait_for_load_state('load')
         
-        name=title(file_path)
+        name=get_title(file_path)
         await page2.locator('textarea').fill(name)
         
         await page2.get_by_label("文档").click()
@@ -604,14 +603,13 @@ async def wxgzh() -> None:
         print('publish success')
 
 if __name__ == '__main__':
-
     
-    # asyncio.run(bilibili())
-    # asyncio.run(baijiahao())
-    # asyncio.run(csdn())
-    # asyncio.run(jianshu())
-    # asyncio.run(juejin())
-    # asyncio.run(tencentcloud())
-    # asyncio.run(toutiao())
-    # asyncio.run(zhihu())
+    asyncio.run(bilibili())
+    asyncio.run(baijiahao())
+    asyncio.run(csdn())
+    asyncio.run(jianshu())
+    asyncio.run(juejin())
+    asyncio.run(tencentcloud())
+    asyncio.run(toutiao())
+    asyncio.run(zhihu())
     asyncio.run(wxgzh())
