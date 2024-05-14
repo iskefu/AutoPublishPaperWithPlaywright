@@ -80,3 +80,4 @@ dmypy.json
 # Visual Studio Code files
 .vscode/
 /data/
+/cookies/
