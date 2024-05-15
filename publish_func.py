@@ -24,15 +24,18 @@ async def init_browser(playwright):
     return browser
 
 def get_title(filepath):
+    print('get title')
     filename = os.path.splitext(os.path.basename(filepath))[0]
     return filename 
 
 def get_content(filepath):
+    print('get content')
     with open(filepath, 'r',encoding='utf-8') as f:
         content = f.read()
     return content
+
 def get_cover(folder_path):
-    # 列出文件夹下所有的文件名
+    print('get cover')
     files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
     # 筛选出图片文件，这里以.jpg和.png为例
     images = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
@@ -42,14 +45,13 @@ def get_cover(folder_path):
     return os.path.join(folder_path, random_image) if random_image else None
 
 def md_to_doc(input_file):
+    print('md to doc')
     input_file = os.path.abspath(input_file)
-    print(f"输入文件: {input_file}")
 
     file_name = os.path.splitext(input_file)[0]
     # print(f"文件名: {file_name}")
     
     output_file = f"{file_name}.docx"
-    print(f"输出文件名: {output_file}")
     
     # 设置你的 Docx 模板路径
     template_docx = 'pandoc_word_template-main/templates_标题不编号.docx'  # 替换成你的 Docx 模板文件路径
@@ -88,7 +90,11 @@ async def save_cookies(cookie_file, page):
     with open(cookie_file, 'w') as f:
         json.dump(cookies, f)
         
-async def jianshu(browser):
+async def jianshu(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
+    
     cookies=os.getenv('COOKIES_JIANSHU')
     if os.path.exists(cookies):
         await load_cookies(cookies, browser)
@@ -155,13 +161,17 @@ async def jianshu(browser):
     print('填写内容成功')
 
     # 发布文章
+    await page2.wait_for_timeout(3000)
     await page2.get_by_text("发布文章").click()
     await page2.locator('a[data-action="publicize"]').click()
     await page2.wait_for_selector('a:has-text("发布成功")')
     print('publish success')
     await browser.close()
     
-async def csdn(browser):
+async def csdn(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_CSDN')
     if os.path.exists(cookies):
@@ -218,7 +228,10 @@ async def csdn(browser):
     print('publish success')
     await browser.close()
     
-async def bilibili(browser):
+async def bilibili(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     cookies=os.getenv('COOKIES_BILIBILI')
     if os.path.exists(cookies):
         await load_cookies(cookies, browser)
@@ -284,7 +297,10 @@ async def bilibili(browser):
     print('publish success')
     await browser.close()
        
-async def baijiahao(browser):
+async def baijiahao(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_BAIJIAHAO')
     if os.path.exists(cookies):
@@ -350,7 +366,10 @@ async def baijiahao(browser):
     os.remove(doc)
     
 
-async def juejin(browser):
+async def juejin(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_JUEJIN')
     if os.path.exists(cookies):
@@ -413,7 +432,10 @@ async def juejin(browser):
     await browser.close()  
     print('publish success')      
        
-async def tencentcloud(browser):
+async def tencentcloud(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_TENCENTCLOUD')
     if os.path.exists(cookies):
@@ -476,7 +498,10 @@ async def tencentcloud(browser):
     print('publish success')     
 
 
-async def toutiao(browser):
+async def toutiao(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_TOUTIAO')
     if os.path.exists(cookies):
@@ -567,14 +592,17 @@ async def toutiao(browser):
     print('获取验证码成功')
     
     await page2.wait_for_selector('div.byte-modal-footer', state='hidden')
-    await page2.locater('div.publish-footer  button').last.click()
+    await page2.locator('div.publish-footer  button').last.click()
     await page2.wait_for_timeout(1000)
-    await page2.locater('div.publish-footer  button').last.click()
+    await page2.locator('div.publish-footer  button').last.click()
     print('publish success')
     os.remove(doc)    
 
  
-async def zhihu(browser):
+async def zhihu(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_ZHIHU')
     if os.path.exists(cookies):
@@ -627,12 +655,15 @@ async def zhihu(browser):
     print('添加话题成功')
     
     await page2.wait_for_timeout(10000)
-    await page2.get_by_role("button", name="发布").click()
-    await page2.get_by_role("button", name="写文章").wait_for()
+    await page2.get_by_role("button", name="发布", exact=True).click()
+    await page2.get_by_role("button", name="写文章", exact=True).wait_for()
     await browser.close()
     print('publish success')
  
-async def wxgzh(browser):
+async def wxgzh(p):
+    file_path = os.getenv('FILE_PATH')
+    cover=get_cover(os.getenv('COVER_PATH'))
+    browser=await init_browser(p)
     
     cookies=os.getenv('COOKIES_WXGZH')
     if os.path.exists(cookies):
@@ -708,7 +739,7 @@ async def wxgzh(browser):
     await page1.get_by_role("button", name="继续发表").click()
     print("继续发表")
     print("扫码验证")
-    await page1.wait_for_selector(".weui-desktop-qrcode__img", timeout=129*1000)
+    await page1.wait_for_selector(".weui-desktop-account__img")
     print("发布成功")
     await browser.close()
     os.remove(doc)
@@ -717,18 +748,17 @@ async def wxgzh(browser):
 async def main():
     
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        # await jianshu(browser)
-        # await csdn(browser)
-        # await bilibili(browser)
-        # await baijiahao(browser)
-        # await juejin(browser)
-        # await tencentcloud(browser)
-        # await toutiao(browser)
-        # await zhihu(browser)
-        await wxgzh(browser)
+        
+        # await jianshu(p)
+        # await csdn(p)
+        # await bilibili(p)
+        # await baijiahao(p)
+        # await juejin(p)
+        # await tencentcloud(p)
+        await toutiao(p)
+        await zhihu(p)
+        # await wxgzh(p)
         
 if __name__ == '__main__':
-    file_path = os.getenv('FILE_PATH')
-    cover=get_cover(os.getenv('COVER_PATH'))
+
     asyncio.run(main())

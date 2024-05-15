@@ -6,53 +6,47 @@ from functools import partial
 from publish_func import baijiahao, bilibili, csdn, get_cover, init_browser, jianshu, juejin, tencentcloud, toutiao, wxgzh, zhihu
 from playwright.async_api import Playwright, async_playwright, expect
 
-file_path = os.getenv('FILE_PATH')
-cover=get_cover(os.getenv('COVER_PATH'))
-
 async def run_wxgzh():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await wxgzh(browser)
+        await wxgzh(p)
         
 async def run_bilibili():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await bilibili(browser)
+        
+        await bilibili(p)
 
 async def run_csdn():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await csdn(browser)
+        
+        await csdn(p)
 
 async def run_jianshu():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await jianshu(browser)
+        
+        await jianshu(p)
 
 async def run_juejin():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await juejin(browser)
+        
+        await juejin(p)
 
 async def run_tencentcloud():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await tencentcloud(browser)
+        
+        await tencentcloud(p)
 
 async def run_toutiao():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await toutiao(browser)
-
+        await toutiao(p)
+        
 async def run_zhihu():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await zhihu(browser)
+        await zhihu(p)
 
 async def run_baijiahao():
     async with async_playwright() as p:
-        browser=await init_browser(p)
-        await baijiahao(browser)
+        
+        await baijiahao(p)
         
 # 异步事件循环
 loop = asyncio.get_event_loop()
